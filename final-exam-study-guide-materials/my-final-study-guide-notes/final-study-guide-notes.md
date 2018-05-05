@@ -1,4 +1,4 @@
-Study Guide - Final 2
+Study Guide - Final
 ================
 Joren Moreno
 May 4, 2018
@@ -26,7 +26,7 @@ The structure of an `.Rmd` file can be divided in two parts: 1) a **YAML header*
 -   The narrative in the body uses Markdown syntax.
 -   The code and commands use R syntax.
 
-### Markdown tutorial (heading)
+### Markdown tutorial
 
 -   *Italics* (italics)
 -   **Bold** (bold)
@@ -88,7 +88,9 @@ R follows two basic rules of implicit coercion
 1.  If a character is present, R will coerce everything else to characters.
 2.  If a vector contains logicals and numbers, R will convert the logicals to numbers (TRUE to 1, FALSE to 0)
 
-Here is the general rule: - logical &lt; integer &lt; numeric &lt; complex &lt; character
+Here is the general rule:
+
+-   logical &lt; integer &lt; numeric &lt; complex &lt; character
 
 ### Special data values in R
 
@@ -363,67 +365,46 @@ Vectors, matrices, and arrays are atomic structures (they can only store one typ
 -   `tail()` take a peek at the last elements
 -   `summary()` shows a summary of a given object
 
-### Main Unix Concepts
-
--   At any given time we are inside a directory.
--   The current directory is the working directory
--   When a new R session is started, a working directory will be associated to the session.
--   When a terminal is started the working directory is the home directory.
-
-### Paths
-
--   Each file and directory has a unique name in the filesystem called a path.
--   Absolute Paths: an absolute pathname begins with the root directory and follows the tree branch by branch.
--   Relative Paths: a relative pathname begins at some working directory, moving either up or down the tree.
-
-### Creating files
-
-3 main ways to create files:
-
--   Using a text editor
--   Direct output (from command) to a file
--   Using the command `touch`
-
-Note: text editor =/ word processor
-
-### Spreadsheet inconveniences
-
--   Excel files (.xls) are NOT text files
--   They are enriched files with added format elements.
--   Cannot be opened with a text editior.
--   You depend on proprietary software.
-
-### Character Delimited Text
-
--   A common way to store data in tabular form is via text files.
--   To store the data we need a way to separate data values
--   Each line represents a "row"
--   The idea of columns is conveyed with delimiters.
-
-### Plain Text Formats
-
--   There are 2 main subtypes of plain text format, depending on how the separated values are identified in a row.
-
-1.  Delimited formats
-2.  Fixed-width formats
-
-### Advantages
-
--   Simplicity
--   Common formats (csv,tsv,txt,dat,etc...)
--   Can be opened and modified with a text editor.
--   Can also be opened in spreadsheet software.
--   Easy to understand for most users.
--   Can be read in data analysis software.
-
 ### R data frames
 
 -   R data frames are special kinds of lists
 -   Stored in R as a list of vectors (or factors)
 -   Columns are typically atomic structures.
 -   But since a data frame is a list, you can mix different types of columns.
+-   Data frames are NOT matrices but they behave a lot like matrices
 
-### dplyr Functions
+### Functions to inspect data frames
+
+-   `str()`: structure
+-   `head()`: first rows
+-   `tail()`: last rows
+-   `summary()`: descriptive statistics
+-   `dim()`: dimensions (\# rows, \# columns)
+-   `nrow()`: number of rows
+-   `ncol()`: number of columns
+-   `names()`: column names
+-   `colnames()`: column names
+-   `rownames()`: row names
+-   `dimnames()`: list with row and column names
+
+### Functions to import tables
+
+-   **read.table()**
+-   **read.delim()**
+-   **read.csv(), read.csv2()**
+-   **read.fwf()**
+
+#### Strings and Factors
+
+By default, strings are converted to factors when loading data frames.
+
+This is the wrong default.
+
+Use `stringsAsFactors = FALSE`
+
+You should always explicitly convert strings into factors later
+
+### dplyr functions
 
 -   `filter`: filter by some specific value.
 -   `select`: select certain columns
@@ -436,8 +417,8 @@ Note: text editor =/ word processor
 ### ggplot functions
 
 -   `aes` = aesthetic
--   ggplot() + geom\_point + geom\_text
--   faceting by position
+-   ggplot() + geom\_point() + geom\_text()
+-   faceting
 
 ### gitbash commands
 
@@ -458,3 +439,56 @@ Note: text editor =/ word processor
 -   `curl -O`: download files
 -   `cat`: output the contents of a file
 -   `grep`: output all occurrences of "text" inside a file
+
+### Main Unix Concepts
+
+-   At any given time we are inside a directory.
+-   The current directory is the working directory
+-   When a new R session is started, a working directory will be associated to the session.
+-   When a terminal is started the working directory is the home directory.
+
+#### Paths
+
+-   Each file and directory has a unique name in the filesystem called a path.
+-   Absolute Paths: an absolute pathname begins with the root directory and follows the tree branch by branch.
+-   Relative Paths: a relative pathname begins at some working directory, moving either up or down the tree.
+
+#### Creating files
+
+3 main ways to create files:
+
+-   Using a text editor
+-   Direct output (from command) to a file
+-   Using the command `touch`
+
+Note: text editor =/ word processor
+
+#### Spreadsheet inconveniences
+
+-   Excel files (.xls) are NOT text files
+-   They are enriched files with added format elements.
+-   Cannot be opened with a text editior.
+-   You depend on proprietary software.
+
+#### Character Delimited Text
+
+-   A common way to store data in tabular form is via text files.
+-   To store the data we need a way to separate data values
+-   Each line represents a "row"
+-   The idea of columns is conveyed with delimiters.
+
+#### Plain Text Formats
+
+-   There are 2 main subtypes of plain text format, depending on how the separated values are identified in a row.
+
+1.  Delimited formats
+2.  Fixed-width formats
+
+#### Advantages
+
+-   Simplicity
+-   Common formats (csv,tsv,txt,dat,etc...)
+-   Can be opened and modified with a text editor.
+-   Can also be opened in spreadsheet software.
+-   Easy to understand for most users.
+-   Can be read in data analysis software.
