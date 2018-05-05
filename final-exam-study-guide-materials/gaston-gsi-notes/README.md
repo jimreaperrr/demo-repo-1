@@ -1,0 +1,2 @@
+
+# In this folder, you will find Gaston's Final Exam Questions and Solutions. In addition, the GSI's notes as of 3:30 p.m Saturday are listed here, including the subsetting pdf and the review session-final ppt.
