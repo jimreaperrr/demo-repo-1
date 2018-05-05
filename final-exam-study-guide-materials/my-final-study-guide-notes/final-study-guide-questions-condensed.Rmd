@@ -15,43 +15,50 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Study Guide Questions
 
-  1.  What are the main differences between R matrices and R data frames? 
+  1)  What are the main differences between R matrices and R data frames? 
 
     **A data frame can contain different types of data (is NOT atomic), and it is internally stored as an R list. In contrast, a matrix is an array and is atomic (all values are of the same type).**
 
-  2. Every time you quit R, a message pops-up with the following question: Save workspace image to /.RData?. 
-  * What is the so called workspace image? 
-  **The workspace is the workspace of your current session; it contains all the objects created during the session.** 
-  * What type of file is .RData? 
+  2) Every time you quit R, a message pops-up with the following question: Save workspace image to /.RData : 
+      * What is the so called workspace image? 
+        
+        **The workspace is the workspace of your current session; it contains all the objects created during the session.** 
   
-  **Any file with extension .RData is a file in R’s binary format.** 
-  **To load or import the contents of the binary file into your R session you use `load()`.**
+      * What type of file is .RData? 
+        
+        **Any file with extension .RData is a file in R's binary format.** 
+        **To load or import the contents of the binary file into your R session you use `load()`.**
   
-  * What happens if you choose the Save option? 
-  **R saves your workspace image in the file .RData.**
+      * What happens if you choose the Save option? 
+        **R saves your workspace image in the file .RData.**
 
   3) When knitting a file, what happens to those code chunks that use the option `echo = FALSE?` 
-  **The code in the chunk is not displayed in the knitted document.**
+  
+    **The code in the chunk is not displayed in the knitted document.**
   
   4) When knitting a file, what happens to those code chunks that use the option `eval = FALSE?` 
-  **The code in the chunk is not evaluated.**
+  
+    **The code in the chunk is not evaluated.**
   
   5) When knitting a file, what happens to those code chunks that use the option `results = 'hide'?` 
-  **The output of the code is hidden (i.e. not displayed).**
+  
+    **The output of the code is hidden (i.e. not displayed).**
   
   6) When knitting a file, what happens to those code chunks that use the option `comment = ""?` 
-  **The output of the code does not show the double hash ##.**
+  
+    **The output of the code does not show the double hash ##.**
   
   7) The reading-table functions use the following parameters: *header*, *sep*, *dec*, *row.names*, *colClasses*, *stringsAsFactors*. Explain what they do, and give an example of the value that each of these parameters can take.  
-  * `header`: whether the ﬁle contains the names of the variables as its ﬁrst line. 
-  * `sep`: the ﬁeld separator character. 
+  
+  * `header`: whether the file contains the names of the variables as its first line. 
+  * `sep`: the field separator character. 
   * `dec`: character used for decimal points. 
   * `row.names`: a vector of row names or a single number giving the column that contains the row names. 
   * `colClasses`: vector of classes to be assumed for the columns. 
   * `stringsAsFactors`: whether vectors should be converted to factors.
 
   8) Explain the concept of vectorization a.k.a. vectorized operations. 
-    
+  
     **An operation is applied to all the elements of a vector.**
   
   9) Explain the concept of atomic structures in R. 
@@ -63,18 +70,18 @@ knitr::opts_chunk$set(echo = TRUE)
     **Brackets are used to manipulate objects: for slicing, subscripting, or extracting values. Parenthesis are used when invoking a function.**
     
   11) Below is a list of possible names for an R vector. Some names are valid and some are invalid. Identify the invalid names, and explain why they are invalid. 
-  a. 3var_name 
-  * **Error: unexpected symbol**
-  * **Option a) is invalid because it starts with a number.** 
-  b. var_name4 
-  c. _var_name
-  * **Error: unexpected input**
-  * **Option c) is invalid because it starts with an underscore; underscores should not appear at the beginning of a name.** 
-  d. .var_name 
-  e. VarName 
-  f. var-name
-  * **Error in var - name: could not find function "-<"**
-  * **Option f) is invalid because it contains a dash, which is reserved for the “minus” or subtraction operator.**
+    a. 3var_name 
+      * **Error: unexpected symbol**
+      * **Option a) is invalid because it starts with a number.** 
+    b. var_name4 
+    c. _var_name
+      * **Error: unexpected input**
+      * **Option c) is invalid because it starts with an underscore; underscores should not appear at the beginning of a name.** 
+    d. .var_name 
+    e. VarName 
+    f. var-name
+        * **Error in var - name: could not find function "-<"**
+        * **Option f) is invalid because it contains a dash, which is reserved for the minus or subtraction operator.**
 
 
   12) What are the different (data) types of missing values that R provides?
@@ -85,29 +92,39 @@ knitr::opts_chunk$set(echo = TRUE)
     
     **It shows the history of commands that you have been using.**
   
-  14) In RStudio, one of the panes has the tabs “Files, Plots, Packages, Help, Viewer”. If you click on the “Files” tab you will see the files of your home directory. There, you should be able to see a file called .Rhistory. What does this file contain? 
+  14) In RStudio, one of the panes has the tabs Files, Plots, Packages, Help, Viewer. If you click on the Files tab you will see the files of your home directory. There, you should be able to see a file called .Rhistory. What does this file contain? 
   
-    **The .Rhistory file contains the history of commands that you’ve typed in the current or older sessions**
+    **The .Rhistory file contains the history of commands that you've typed in the current or older sessions**
   
-  15)  
-  * What happens when you type: license()? **The text of the GNU General Public License is displayed.** 
-  * What happens when you type: contributors()? **Information about the authors of R and the list of contributors is displayed.** 
-  * What happens when you type: citation()? **Indications on how to cite R in publications.**
-  * What happens when you type: demo()? **A series of demonstration plots are displayed.**
+  15)  * What happens when you type: license()? 
+      
+      **The text of the GNU General Public License is displayed.** 
+       
+       * What happens when you type: contributors()? 
+      
+      **Information about the authors of R and the list of contributors is displayed.** 
+       
+       * What happens when you type: citation()? 
+      
+      **Indications on how to cite R in publications.**
+      
+      * What happens when you type: demo()? 
+      
+      **A series of demonstration plots are displayed.**
 
-  16)  A code chunk in an .Rmd ﬁle can be assigned a unique name by specifying a label inside the curly braces, like this: {r some-label}. When knitting a ﬁle, what happens if you have two diﬀerent code chunks with the same label? 
+  16)  A code chunk in an .Rmd file can be assigned a unique name by specifying a label inside the curly braces, like this: {r some-label}. When knitting a file, what happens if you have two different code chunks with the same label? 
   
-  **You get an error. You cannot have two diﬀerent code chunks with the same name. You can, however, use the same label of another chunk in an empty chunk (i.e. no code in it).**
+    **You get an error. You cannot have two different code chunks with the same name. You can, however, use the same label of another chunk in an empty chunk (i.e. no code in it).**
 
   17) Data Dictionary
   
-  **Give one point for each variable in the dictionary. These should be at least the name of the variable and a brief description of its meaning and/or its units. Optionally there should also be information about the type of data, and what are possible values for characters (or factor) variables.**
+    **Give one point for each variable in the dictionary. These should be at least the name of the variable and a brief description of its meaning and/or its units. Optionally there should also be information about the type of data, and what are possible values for characters (or factor) variables.**
   
   18) Why do typeof(sw[["weight"]]) and typeof(sw$weight) return "integer", while typeof(sw["weight"]) and typeof( sw[,"weight"]) return "list"? 
   
-  **The first and second commands use [[ ]] and $ which are the operators that extract the vector that forms the weight column.**
+    **The first and second commands use [[ ]] and $ which are the operators that extract the vector that forms the weight column.**
   
-  **The third and fourth commands use [ ] and [ , ], which are the operators that select the element but don’t get access (inside) the vectors.**
+    **The third and fourth commands use [ ] and [ , ], which are the operators that select the element but don't get access (inside) the vectors.**
 
   19) 
   

@@ -10,27 +10,37 @@ Study Guide Questions
 
     **A data frame can contain different types of data (is NOT atomic), and it is internally stored as an R list. In contrast, a matrix is an array and is atomic (all values are of the same type).**
 
-2.  Every time you quit R, a message pops-up with the following question: Save workspace image to /.RData?.
+2.  Every time you quit R, a message pops-up with the following question: Save workspace image to /.RData :
+    -   What is the so called workspace image?
 
--   What is the so called workspace image? **The workspace is the workspace of your current session; it contains all the objects created during the session.**
--   What type of file is .RData?
+        **The workspace is the workspace of your current session; it contains all the objects created during the session.**
 
-**Any file with extension .RData is a file in Râs binary format.** **To load or import the contents of the binary file into your R session you use `load()`.**
+    -   What type of file is .RData?
 
--   What happens if you choose the Save option? **R saves your workspace image in the file .RData.**
+        **Any file with extension .RData is a file in R's binary format.** **To load or import the contents of the binary file into your R session you use `load()`.**
 
-1.  When knitting a file, what happens to those code chunks that use the option `echo = FALSE?` **The code in the chunk is not displayed in the knitted document.**
+    -   What happens if you choose the Save option? **R saves your workspace image in the file .RData.**
 
-2.  When knitting a file, what happens to those code chunks that use the option `eval = FALSE?` **The code in the chunk is not evaluated.**
+3.  When knitting a file, what happens to those code chunks that use the option `echo = FALSE?`
 
-3.  When knitting a file, what happens to those code chunks that use the option `results = 'hide'?` **The output of the code is hidden (i.e. not displayed).**
+    **The code in the chunk is not displayed in the knitted document.**
 
-4.  When knitting a file, what happens to those code chunks that use the option `comment = ""?` **The output of the code does not show the double hash \#\#.**
+4.  When knitting a file, what happens to those code chunks that use the option `eval = FALSE?`
 
-5.  The reading-table functions use the following parameters: *header*, *sep*, *dec*, *row.names*, *colClasses*, *stringsAsFactors*. Explain what they do, and give an example of the value that each of these parameters can take.
+    **The code in the chunk is not evaluated.**
 
--   `header`: whether the ï¬le contains the names of the variables as its ï¬rst line.
--   `sep`: the ï¬eld separator character.
+5.  When knitting a file, what happens to those code chunks that use the option `results = 'hide'?`
+
+    **The output of the code is hidden (i.e. not displayed).**
+
+6.  When knitting a file, what happens to those code chunks that use the option `comment = ""?`
+
+    **The output of the code does not show the double hash \#\#.**
+
+7.  The reading-table functions use the following parameters: *header*, *sep*, *dec*, *row.names*, *colClasses*, *stringsAsFactors*. Explain what they do, and give an example of the value that each of these parameters can take.
+
+-   `header`: whether the file contains the names of the variables as its first line.
+-   `sep`: the field separator character.
 -   `dec`: character used for decimal points.
 -   `row.names`: a vector of row names or a single number giving the column that contains the row names.
 -   `colClasses`: vector of classes to be assumed for the columns.
@@ -49,61 +59,66 @@ Study Guide Questions
     **Brackets are used to manipulate objects: for slicing, subscripting, or extracting values. Parenthesis are used when invoking a function.**
 
 4.  Below is a list of possible names for an R vector. Some names are valid and some are invalid. Identify the invalid names, and explain why they are invalid.
+    1.  3var\_name
 
-<!-- -->
+    -   **Error: unexpected symbol**
+    -   **Option a) is invalid because it starts with a number.**
 
-1.  3var\_name
+    1.  var\_name4
+    2.  \_var\_name
 
--   **Error: unexpected symbol**
--   **Option a) is invalid because it starts with a number.**
+    -   **Error: unexpected input**
+    -   **Option c) is invalid because it starts with an underscore; underscores should not appear at the beginning of a name.**
 
-1.  var\_name4
-2.  \_var\_name
+    1.  .var\_name
+    2.  VarName
+    3.  var-name
+        -   **Error in var - name: could not find function "-&lt;"**
+        -   **Option f) is invalid because it contains a dash, which is reserved for the minus or subtraction operator.**
 
--   **Error: unexpected input**
--   **Option c) is invalid because it starts with an underscore; underscores should not appear at the beginning of a name.**
-
-1.  .var\_name
-2.  VarName
-3.  var-name
-
--   **Error in var - name: could not find function "-&lt;"**
--   **Option f) is invalid because it contains a dash, which is reserved for the âminusâ or subtraction operator.**
-
-1.  What are the different (data) types of missing values that R provides?
+5.  What are the different (data) types of missing values that R provides?
 
     `NA` (logical), `NA_integer_` (integer), `NA_real_` (real/double), `NA_character_` (character), and `NA_complex_` (complex)
 
-2.  In RStudio, one of the panes has the tabs "Environment, History". What is the content of the "History" tab?
+6.  In RStudio, one of the panes has the tabs "Environment, History". What is the content of the "History" tab?
 
     **It shows the history of commands that you have been using.**
 
-3.  In RStudio, one of the panes has the tabs âFiles, Plots, Packages, Help, Viewerâ. If you click on the âFilesâ tab you will see the files of your home directory. There, you should be able to see a file called .Rhistory. What does this file contain?
+7.  In RStudio, one of the panes has the tabs Files, Plots, Packages, Help, Viewer. If you click on the Files tab you will see the files of your home directory. There, you should be able to see a file called .Rhistory. What does this file contain?
 
-    **The .Rhistory file contains the history of commands that youâve typed in the current or older sessions**
+    **The .Rhistory file contains the history of commands that you've typed in the current or older sessions**
 
-4.  
+8.  -   What happens when you type: license()?
 
--   What happens when you type: license()? **The text of the GNU General Public License is displayed.**
--   What happens when you type: contributors()? **Information about the authors of R and the list of contributors is displayed.**
--   What happens when you type: citation()? **Indications on how to cite R in publications.**
--   What happens when you type: demo()? **A series of demonstration plots are displayed.**
+    **The text of the GNU General Public License is displayed.**
 
-1.  A code chunk in an .Rmd ï¬le can be assigned a unique name by specifying a label inside the curly braces, like this: {r some-label}. When knitting a ï¬le, what happens if you have two diï¬erent code chunks with the same label?
+    -   What happens when you type: contributors()?
 
-**You get an error. You cannot have two diï¬erent code chunks with the same name. You can, however, use the same label of another chunk in an empty chunk (i.e. no code in it).**
+    **Information about the authors of R and the list of contributors is displayed.**
 
-1.  Data Dictionary
+    -   What happens when you type: citation()?
 
-**Give one point for each variable in the dictionary. These should be at least the name of the variable and a brief description of its meaning and/or its units. Optionally there should also be information about the type of data, and what are possible values for characters (or factor) variables.**
+    **Indications on how to cite R in publications.**
 
-1.  Why do typeof(sw\[\["weight"\]\]) and typeof(sw$weight) return "integer", while typeof(sw\["weight"\]) and typeof( sw\[,"weight"\]) return "list"?
+    -   What happens when you type: demo()?
 
-**The first and second commands use \[\[ \]\] and $ which are the operators that extract the vector that forms the weight column.**
+    **A series of demonstration plots are displayed.**
 
-**The third and fourth commands use \[ \] and \[ , \], which are the operators that select the element but donât get access (inside) the vectors.**
+9.  A code chunk in an .Rmd file can be assigned a unique name by specifying a label inside the curly braces, like this: {r some-label}. When knitting a file, what happens if you have two different code chunks with the same label?
 
-1.  
+    **You get an error. You cannot have two different code chunks with the same name. You can, however, use the same label of another chunk in an empty chunk (i.e. no code in it).**
+
+10. Data Dictionary
+
+    **Give one point for each variable in the dictionary. These should be at least the name of the variable and a brief description of its meaning and/or its units. Optionally there should also be information about the type of data, and what are possible values for characters (or factor) variables.**
+
+11. Why do typeof(sw\[\["weight"\]\]) and typeof(sw$weight) return "integer", while typeof(sw\["weight"\]) and typeof( sw\[,"weight"\]) return "list"?
+
+    **The first and second commands use \[\[ \]\] and $ which are the operators that extract the vector that forms the weight column.**
+
+    **The third and fourth commands use \[ \] and \[ , \], which are the operators that select the element but don't get access (inside) the vectors.**
+
+12. 
 
 <!-- -->
 
