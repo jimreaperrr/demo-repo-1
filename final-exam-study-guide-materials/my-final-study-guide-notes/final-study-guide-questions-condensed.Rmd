@@ -3,9 +3,10 @@ title: "Study Guide - Final"
 author: "Joren Moreno"
 date: "May 7, 2018"
 output:
-  html_document: default
+  github_document: default
   pdf_document: default
   word_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
