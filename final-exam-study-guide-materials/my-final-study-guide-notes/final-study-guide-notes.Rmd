@@ -866,6 +866,24 @@ Separate small functions:
 * are easier to test and verify they are correct
 * are more likely to be reusable as they each do less and so you can pick the functions that do specific tasks
 * Make functions parameterizable
-* Allow the user to specify values htat might be computed in the function
+* Allow the user to specify values that might be computed in the function
 * This facilitates testing and avoiding recomputing the same thing in different calls
 * Use a default value to do those computations that would be in the body of the function
+
+### Testing Functions
+
+* R package `testthat`
+* `"testthat"` provides a testing framework for R that is easy to learn and use
+* `"testthat"` has a hierarchical structure made up of: 
+    * expectations
+    * tests
+    * contexts
+* A **context** involves tests formed by groups of expectations
+* Each structure has associated functions: 
+    * expect_that() for expectations
+    * test_that() for groups of tests
+    * context() for contexts
+
+Follow the link below for a list of these expectation functions and more relating to this topic.
+    
+[list of common expectation functions](https://github.com/ucb-stat133/stat133-spring-2018/blob/master/tutorials/14-testing-functions.md#list-of-common-expectation-functions)
