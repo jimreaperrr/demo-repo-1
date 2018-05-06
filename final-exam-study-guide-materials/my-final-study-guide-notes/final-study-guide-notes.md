@@ -1836,13 +1836,14 @@ You should always explicitly convert strings into factors later
 -   `group_by`: sort rows by a column name
 -   `summarise`: reduce variables to values
 -   `aggregate`: aggregate info
--   `arrange`: reorder rows
+-   `arrange`: reorder rows; use `desc()` to obtain descending order
 -   `mutate`: add new variables
 
-#### pipelines `%>%` (dplyr)
+#### pipelines `%>%` (dplyr & ggplot)
 
 -   Pipelines make multiple dplyr operations easier to read
--   Outputs become inputs from next
+-   ex: x %&gt;% f(y) turns into f(x,y) so that you can pass outputs as inputs from left-to-right.
+-   You can mix the `%>%` operator to chain dplyr commands with ggplot commands (and other R commands)
 
 ### ggplot functions (data frames only)
 
@@ -1867,6 +1868,9 @@ You should always explicitly convert strings into factors later
 -   `tail -n 10`: inspect last 10 rows
 -   `less`: see contents with a paginator
 -   `cut`: select columns
+    -   `d`: field delimiter
+    -   `f`: column numbers
+    -   `c`: characters
 -   `pwd`: print working directory
 -   `cd`: change directory (move to another directly)
 -   `mv`: rename file(s)
@@ -1878,6 +1882,40 @@ You should always explicitly convert strings into factors later
 -   `curl -O`: download files
 -   `cat`: output the contents of a file
 -   `grep`: output all occurrences of "text" inside a file
+-   `sort`: sort lines of data
+    -   `-r`: reverse order
+    -   `-u`: unique values
+    -   `-n`: numerical order
+    -   `-d`: dictionary order (alphabetical)
+    -   `-t`: use commas for delimiters
+    -   `-k`: sort lines based on a specific column
+-   `uniq`:
+    -   `-c`: frequencies of the unique values
+-   `|`: the bash shell equivalent to the `%>%` command in dplyr
+-   `>`: redirects output to a file
+-   `>>`: append a file with new information
+
+#### gitbash command examples
+
+    # select third column (-f 3) specifying field-delimiter (-d ",")
+    cut -d "," -f 3 datafile.csv
+
+    # redirect above code output to a new file and display it
+    cut -d "," -f 3 datafile.csv > newdatafile.txt
+
+    cat newdatafile.txt
+
+    # sort unique occurences
+
+    sort -u newdatafile.txt
+
+    # get unique frequencies
+
+    sort newdatafile.txt | uniq -c
+
+    # one pipeline of unique position frequencies
+
+    cut -d "," -f 3 datafile.csv | tail +2 | sort | uniq -c
 
 ### Main Unix Concepts
 
@@ -1931,3 +1969,328 @@ Note: text editor =/ word processor
 -   Can also be opened in spreadsheet software.
 -   Easy to understand for most users.
 -   Can be read in data analysis software.
+
+### Functions
+
+#### Function anatomy
+
+    some_name <- function(arguments) {
+      body
+    }
+
+#### Documenting Functions
+
+-   Roxygen comments
+
+``` r
+#' @title
+#' @description what the function does
+#' @param the inputs or arguments
+#' @return what is the output
+```
+
+#### Naming functions
+
+-   Function names cannot begin with a number, an underscore, or have hyphennated names.
+-   sometimes `.hidden` are seen, which are hidden functions
+
+#### Function output
+
+The value of a function can be established in two ways: - As the last evaluated simple expression (in the body of the function) - An explicitly **returned** value via `return()`
+
+### R expressions
+
+Before talking about conditional structures and loops, we must first talk about **expressions**.
+
+R programs are made up of expressions. These can be either *simple* expressions or *compound* expressions. Compound expressions consist of simple expressions separated by semicolons or newlines, and grouped within braces.
+
+
+    # structure of a compound expression
+    # with simple expressions separated by semicolons
+    {expression_1; expression_2; ...; expression_n}
+
+    # structure of a compound expression
+    # with simple expressions separated by newlines
+    {
+      expression_1
+      expression_2
+      expression_n
+    }
+
+``` r
+# simple expressions separated by semicolons
+{"first"; 1; 2; 3; "last"}
+```
+
+    [1] "last"
+
+``` r
+# Every expression in R has a value: the value of the last evaluated statement
+```
+
+### Conditionals: if-then-else statements
+
+    if (condition) {
+    # do something
+    } else {
+    # do something else
+    }
+
+`if` statements can be written in different forms, depending on the types of expressions that are evaluated. If the expressions of both the *True* part and the *False* part are simple expressions, the if-then-else can be simplified as:
+
+    if (condition) expression_1 else expression_2
+
+-   The above statement is hard to read! Braces are better!
+
+#### Switch case examples
+
+``` r
+# Convert the day of the week into a number.
+day <- "Tuesday" # Change this value!
+
+if (day == 'Sunday') {
+  num_day <- 1
+} else if (day == "Monday") {
+  num_day <- 2
+} else if (day == "Tuesday") {
+  num_day <- 3
+} else if (day == "Wednesday") {
+  num_day <- 4
+} else if (day == "Thursday") {
+  num_day <- 5
+} else if (day == "Friday") {
+  num_day <- 6
+} else if (day == "Saturday") {
+  num_day <- 7
+}
+
+num_day
+```
+
+    [1] 3
+
+#### switch case examples
+
+``` r
+# Convert the day of the week into a number.
+day <- "Tuesday" # Change this value!
+
+switch(day, # The expression to be evaluated.
+  Sunday = 1,
+  Monday = 2,
+  Tuesday = 3,
+  Wednesday = 4,
+  Thursday = 5,
+  Friday = 6,
+  Saturday = 7,
+  NA) # an (optional) default value if there are no matches
+```
+
+    [1] 3
+
+#### switch case examples
+
+``` r
+# Convert a number into a day of the week.
+day_num <- 3 # Change this value!
+
+switch(day_num,
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday")
+```
+
+    [1] "Tuesday"
+
+#### Function `stop()`
+
+``` r
+# example of using the stop function
+circle_area <- function(radius = 1) {
+  if (radius < 0) {
+    stop("radius must be positive")
+  }
+  pi * radius^2
+}
+
+# this should work
+circle_area(1)
+```
+
+    [1] 3.141593
+
+``` r
+# this should not work
+circle_area(-1)
+```
+
+    Error in circle_area(-1): radius must be positive
+
+### Loops
+
+**Iteration** \* Three types of loops: `for`,`repeat`,`while`
+
+#### for loops
+
+-   often we want to repeatedly carry out some computation a **fixed** number of times.
+-   For instance, repeat an operation for each element of a vector.
+-   In R this can be done with a `for` loop.
+-   `for` loops are used when **we know exactly how many times** we want the code to repeat
+
+##### anatomy
+
+    for (iterator in times) {
+      do_something
+    }
+
+    # for loops and next statement (skip an iteration)
+    for (iterator in times) { 
+      expr1
+      expr2
+      if (condition) {
+        next
+      }
+      expr3
+      expr4
+    }
+
+    # nested loops (loops in loops!)
+    for (iterator1 in times1) { 
+      for (iterator2 in times2) {
+        expr1
+        expr2
+        ...
+      }
+    }
+
+##### example
+
+``` r
+prices <- c(2.50, 2.95, 3.45, 3.25)
+
+for (i in 1:4) {
+  cat("Price", i, "is", prices[i], "\n")
+}
+```
+
+    Price 1 is 2.5 
+    Price 2 is 2.95 
+    Price 3 is 3.45 
+    Price 4 is 3.25 
+
+``` r
+# skip iteration
+x <- 2
+
+for (i in 1:5) {
+  y <- x * i
+  if (y == 8) {
+    next
+  }
+  print(y)
+}
+```
+
+    [1] 2
+    [1] 4
+    [1] 6
+    [1] 10
+
+``` r
+# nested loops
+# some matrix
+A <- matrix(1:12, nrow = 3, ncol = 4)
+# reciprocal of values less than 6
+for (i in 1:nrow(A)) { 
+  for (j in 1:ncol(A)) {
+    if (A[i,j] < 6) A[i,j] <- 1 / A[i,j] 
+  }
+}
+
+A
+```
+
+              [,1] [,2] [,3] [,4]
+    [1,] 1.0000000 0.25    7   10
+    [2,] 0.5000000 0.20    8   11
+    [3,] 0.3333333 6.00    9   12
+
+#### repeat loops
+
+`repeat` executes the same code over and over until a stop condition is met:
+
+    repeat { 
+      # keep
+      # doing
+      # something
+      if (stop_condition) {
+        break
+      }
+    }
+
+##### using `break` to stop any potential infinite loops
+
+``` r
+value <- 2
+
+# skip iterations
+
+repeat {
+  value <- value * 2
+  print(value)
+  if (value == 16) {
+    value <- value * 2
+    next
+  }
+  if (value > 80) break 
+}
+```
+
+    [1] 4
+    [1] 8
+    [1] 16
+    [1] 64
+    [1] 128
+
+#### while loops: repeats computations until a condition is false
+
+    while (condition) { 
+      # keep
+      # doing
+      # something
+      # until
+      # condition is FALSE
+    }
+
+-   `while` loops are backward repeat loops
+-   `while` checks first and then attempts to execute
+-   computations are carried out for as long as the condition is true
+-   the loop stops when the condition is FALSE
+-   If you enter an infinite loop, break it by pressing `ESC` key
+
+``` r
+value <- 2
+
+while (value < 40) { 
+  value <- value * 2 
+  print(value)
+}
+```
+
+    [1] 4
+    [1] 8
+    [1] 16
+    [1] 32
+    [1] 64
+
+##### Repeat, While, For
+
+-   If you don't know the number of times something will be done, you can use either `repeat` or `while`
+-   `while` evaluates the condition at the beginning
+-   `repeat` executes operations until a stop condition is met
+-   If you know the number of times that something will be done, use `for`
+-   `for` needs an *iterator* and a vector of *times*
