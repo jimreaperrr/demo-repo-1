@@ -323,10 +323,10 @@ df[c(1,50,100), c(3,5)]
 ##### retrieving cells (excluding indices)
 ```{r}
 # various adjacent cells
-df[-(1:5),-(4:6)]
+head(df[-(1:5),-(4:6)])
 
 # non-adjacent cells
-df[-c(1,50,100), -c(3,5)]
+head(df[-c(1,50,100), -c(3,5)])
 ```
 
 ##### retrieving rows or columns
@@ -587,6 +587,7 @@ some_name <- function(arguments) {
 
 #### Function output
   The value of a function can be established in two ways:
+    
     - As the last evaluated simple expression (in the body of the function)
     - An explicitly **returned** value via `return()`
 
@@ -713,7 +714,9 @@ circle_area(-1)
 ```
 
 ### Loops
+  
   **Iteration**
+  
   * Three types of loops: `for`,`repeat`,`while`
 
 #### for loops
