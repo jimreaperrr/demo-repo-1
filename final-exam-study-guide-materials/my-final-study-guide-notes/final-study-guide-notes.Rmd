@@ -13,6 +13,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE, error = TRUE, comment = "", eval = TRUE)
 ```
 
+[Stat133-GastonSanchez-Syllabus](https://github.com/ucb-stat133/stat133-spring-2018/tree/master/syllabus)
+
 ### Rmd files
   
   **Rmd** files are a special type of file, referred to as a *dynamic document*. It combines both the commands and the narrative of R code.
@@ -890,3 +892,250 @@ Separate small functions:
 Follow the link below for a list of these expectation functions and more relating to this topic.
     
 [list of common expectation functions](https://github.com/ucb-stat133/stat133-spring-2018/blob/master/tutorials/14-testing-functions.md#list-of-common-expectation-functions)
+
+Tests Example
+```{}
+# load the source code of the functions to be tested
+ source("functions.R")
+
+# context with one test that groups expectations
+context("Tests for Standardize")
+
+
+test_that("standardize works with normal input", {
+  x <- c(1, 2, 3)
+  z <- (x - mean(x)) / sd(x)
+
+  expect_equal(standardize(x), z)
+  expect_length(standardize(x), length(x))
+  expect_type(standardize(x), 'double')
+})
+
+
+test_that("standardize works with missing values", {
+  y <- c(1, 2, NA)
+  z1 <- (y - mean(y, na.rm = FALSE)) / sd(y, na.rm = FALSE)
+  z2 <- (y - mean(y, na.rm = TRUE)) / sd(y, na.rm = TRUE)
+  
+  expect_equal(standardize(y), z1)
+  expect_length(standardize(y), length(y))
+  expect_equal(standardize(y, na.rm = TRUE), z2)
+  expect_length(standardize(y, na.rm = TRUE), length(y))
+  expect_type(standardize(y), 'double')
+})
+
+
+test_that("standardize handles logical vector", {
+  w <- c(TRUE, FALSE, TRUE)
+  z <- (w - mean(w)) / sd(w)
+  
+  expect_equal(standardize(w), z)
+  expect_length(standardize(w), length(w))
+  expect_type(standardize(w), 'double')
+})
+
+# (assuming that your working directory is "code/")
+# run from R console
+library(testthat)
+test_file("tests.R")
+```
+
+### Strings
+
+The workhorse function `paste()`
+```{r}
+# paste example
+paste("the life of", "pablo", sep = " ", collapse = "")
+
+# paste with collapsing
+paste(1:3, c("!","?","+"), sep = "", collapse = "")
+
+# paste without collapsing
+paste(1:3, c("!","?","+"), sep = "", collapse = "")
+
+# paste0 example
+paste0("let's","collapse","all","these","words")
+
+```
+
+### Basic String Manipulations
+
+`nchar()`: number of characters
+`tolower()`: convert to lower case
+`toupper()`: convert to upper case
+`casefold()`: case folding
+`chartr()`: character translation
+`abbreviate()`: abbreviation 
+`substring()`: substrings of a character vector
+`substr()`: substrings of a character vector
+`%in%()`: contains
+
+##### example using switch() and tolower():
+```{r}
+temp_convert <- function(deg = 1, to = "celsius") {
+  switch(tolower(to),
+         "celsius" = (deg - 32) * (5/9),
+         "kelvin" = (deg + 459.67) * (5/9),
+         "reaumur" = (deg - 32) * (4/9),
+         "rankine" = deg + 459.67)
+}
+
+temp_convert(30, "CELSIUS")
+```
+
+##### example using chartr():
+```{r}
+# replace "a" by "A", also the old and new characters must have same length
+chartr("a","A","This is a boring string")
+```
+
+##### example using abbreviate():
+```{r}
+some_colors <- colors()[1:4]
+
+colors1 <- abbreviate(some_colors, minlength = 5)
+colors1
+
+plot(mtcars$mpg, mtcars$disp, type = "n")
+text(mtcars$mpg, mtcars$disp, abbreviate(rownames(mtcars)))
+```
+
+##### examples using substr():
+```{r}
+# extract "bcd"
+# substr(string,start,end)
+substr("abcdef",2,4)
+
+# replace 2nd letter with hash symbol
+x <- c("may", "the", "force", "be", "with", "you")
+substr(x,2,2)<- "#"
+```
+
+#### examples using sort():
+```{r}
+set12 <- c("today", "produced", "example","beautiful","1","nicely")
+
+# sort (decreasing order)
+sort(set12)
+
+# sort(increasing order)
+sort(set12, decreasing = TRUE)
+```
+
+### Regular Expressions
+
+  * `stringr()` package functions:
+    - str_detect(): *detects* what elements contain a match to the specified pattern:
+      - str_detect(string = something, pattern = "something")
+    - str_extract(): pattern extraction:
+      - str_extract(string = something, pattern = "something")
+    - str_replace(): replace a pattern with a new string:
+      - str_replace(string = something, pattern = "something", replacement = "replacement")
+    - str_split():
+      - str_split(string = something, pattern = "something")
+    
+
+#### Metacharacters
+  * the dot `.` or the **wild** metacharacter is used to match **ANY** character except for a new line.
+
+##### example using wild metacharacter
+```{r}
+library(stringr)
+
+not <- c("not", "note", "knot","nut")
+str_extract(not, "n.t")
+
+fives <- c("5.00", "5100", "5-100", "5 00")
+
+str_extract(fives, "5.00")
+
+# match actual dot character
+str_extract(fives, "5\\.00")
+```
+  
+#### character ranges
+
+```{}
+# digits
+[0-9]
+
+# lowercase alphabet
+[a-z]
+
+# uppercase alphabet
+A-Z
+```
+
+ * To match consecutive digits or characters you need to define the character range pattern the amount of times as desired
+
+```{r}
+triplets <- c('123', 'abc', 'ABC', ':-)')
+
+str_extract(triplets, "[A-Z][A-Z][A-Z]")
+```
+
+##### negative character range needs the ^ metacharacter
+```{r}
+basic <- c('1', 'a', 'A', '&', '-', '^')
+
+# elements that are NOT upper case letters
+str_extract(basic, "[^A-Z]")
+```
+
+```{r}
+# metacharacters inside character sets
+pnx <- c('pan', 'pen', 'pin', 'p0n', 'p.n', 'p1n', 'paun')
+
+# the dot is a literal dot, not a wildcard character
+str_extract(pnx, "p[ae.io]n")
+```
+
+##### metacharacters that don't become literal characters inside character sets: `]`, `-`, `^`, and the `\`
+
+#### character classes
+
+  * `\\d`: matches any digit
+      * same as [0-9]
+  * `\\D`: matches any nondigit
+      * same as [^0-9]
+  * `\\w`: matches any character considered part of a word
+      * same as [a-zA-Z0-9_]
+  * `\\W`: matches any character not considered part of a 
+      * same as [^a-zA-Z0-9_]
+  * `\\s`: matches any whitespace character
+      * same as [\f\n\r\t\v]
+  * `\\S`: matches any nonwhitespace character
+      * same as [^\f\n\r\t\t\v]
+      
+##### whitepace characters
+  * `\f`: form feed
+  * `\n`: line feed
+  * `\r`: carriage return
+  * `\t`: tab
+  * `\v`: vertical tab
+  
+#### **POSIX character classes**
+
+  - `[:alnum:]`: any letter or digit
+    * same as [a-zA-Z0-9]
+  - `[:alpha:]`: any letter
+    * same as [a-zA-Z]
+  - `[:digit:]`: any digit
+    * same as [0-9]
+  - `[:lower:]`: any lowercase letter
+    * same as [a-z]
+  - `[:upper:]`: any uppercase letter
+    * same as [A-Z]
+  - `[:space:]`: any whitespace including space 
+    * same as [\f\n\r\t\v]
+  
+```{r}
+pnx <- c('pan', 'pen', 'pin', 'p0n', 'p.n', 'p1n', 'paun')
+
+str_extract(pnx, "p[[:alpha:]]n")
+```
+
+```{r}
+str_extract(pnx, "[[:digit:]]")
+```
+

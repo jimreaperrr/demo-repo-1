@@ -7,6 +7,8 @@ May 4, 2018
 knitr::opts_chunk$set(echo = TRUE, error = TRUE, comment = "", eval = TRUE)
 ```
 
+[Stat133-GastonSanchez-Syllabus](https://github.com/ucb-stat133/stat133-spring-2018/tree/master/syllabus)
+
 ### Rmd files
 
 **Rmd** files are a special type of file, referred to as a *dynamic document*. It combines both the commands and the narrative of R code.
@@ -1131,3 +1133,173 @@ Separate small functions:
 Follow the link below for a list of these expectation functions and more relating to this topic.
 
 [list of common expectation functions](https://github.com/ucb-stat133/stat133-spring-2018/blob/master/tutorials/14-testing-functions.md#list-of-common-expectation-functions)
+
+Tests Example
+
+    # load the source code of the functions to be tested
+     source("functions.R")
+
+    # context with one test that groups expectations
+    context("Tests for Standardize")
+
+
+    test_that("standardize works with normal input", {
+      x <- c(1, 2, 3)
+      z <- (x - mean(x)) / sd(x)
+
+      expect_equal(standardize(x), z)
+      expect_length(standardize(x), length(x))
+      expect_type(standardize(x), 'double')
+    })
+
+
+    test_that("standardize works with missing values", {
+      y <- c(1, 2, NA)
+      z1 <- (y - mean(y, na.rm = FALSE)) / sd(y, na.rm = FALSE)
+      z2 <- (y - mean(y, na.rm = TRUE)) / sd(y, na.rm = TRUE)
+      
+      expect_equal(standardize(y), z1)
+      expect_length(standardize(y), length(y))
+      expect_equal(standardize(y, na.rm = TRUE), z2)
+      expect_length(standardize(y, na.rm = TRUE), length(y))
+      expect_type(standardize(y), 'double')
+    })
+
+
+    test_that("standardize handles logical vector", {
+      w <- c(TRUE, FALSE, TRUE)
+      z <- (w - mean(w)) / sd(w)
+      
+      expect_equal(standardize(w), z)
+      expect_length(standardize(w), length(w))
+      expect_type(standardize(w), 'double')
+    })
+
+    # (assuming that your working directory is "code/")
+    # run from R console
+    library(testthat)
+    test_file("tests.R")
+
+### Strings
+
+The workhorse function `paste()`
+
+``` r
+# paste example
+paste("the life of", "pablo", sep = " ", collapse = "")
+```
+
+    [1] "the life of pablo"
+
+``` r
+# paste with collapsing
+paste(1:3, c("!","?","+"), sep = "", collapse = "")
+```
+
+    [1] "1!2?3+"
+
+``` r
+# paste without collapsing
+paste(1:3, c("!","?","+"), sep = "", collapse = "")
+```
+
+    [1] "1!2?3+"
+
+``` r
+# paste0 example
+paste0("let's","collapse","all","these","words")
+```
+
+    [1] "let'scollapseallthesewords"
+
+### Basic String Manipulations
+
+`nchar()`: number of characters `tolower()`: convert to lower case `toupper()`: convert to upper case `casefold()`: case folding `chartr()`: character translation `abbreviate()`: abbreviation `substring()`: substrings of a character vector `substr()`: substrings of a character vector `%in%()`: contains
+
+##### example using switch() and tolower():
+
+``` r
+temp_convert <- function(deg = 1, to = "celsius") {
+  switch(tolower(to),
+         "celsius" = (deg - 32) * (5/9),
+         "kelvin" = (deg + 459.67) * (5/9),
+         "reaumur" = (deg - 32) * (4/9),
+         "rankine" = deg + 459.67)
+}
+
+temp_convert(30, "CELSIUS")
+```
+
+    [1] -1.111111
+
+##### example using chartr():
+
+``` r
+# replace "a" by "A", also the old and new characters must have same length
+chartr("a","A","This is a boring string")
+```
+
+    [1] "This is A boring string"
+
+##### example using abbreviate():
+
+``` r
+some_colors <- colors()[1:4]
+
+colors1 <- abbreviate(some_colors, minlength = 5)
+colors1
+```
+
+            white     aliceblue  antiquewhite antiquewhite1 
+          "white"       "alcbl"       "antqw"       "antq1" 
+
+``` r
+plot(mtcars$mpg, mtcars$disp, type = "n")
+text(mtcars$mpg, mtcars$disp, abbreviate(rownames(mtcars)))
+```
+
+![](final-study-guide-notes_files/figure-markdown_github/unnamed-chunk-31-1.png)
+
+##### examples using substr():
+
+``` r
+# extract "bcd"
+# substr(string,start,end)
+substr("abcdef",2,4)
+```
+
+    [1] "bcd"
+
+``` r
+# replace 2nd letter with hash symbol
+x <- c("may", "the", "force", "be", "with", "you")
+substr(x,2,2)<- "#"
+```
+
+#### examples using sort():
+
+``` r
+set12 <- c("today", "produced", "example","beautiful","1","nicely")
+
+# sort (decreasing order)
+sort(set12)
+```
+
+    [1] "1"         "beautiful" "example"   "nicely"    "produced"  "today"    
+
+``` r
+# sort(increasing order)
+sort(set12, decreasing = TRUE)
+```
+
+    [1] "today"     "produced"  "nicely"    "example"   "beautiful" "1"        
+
+### Regular Expressions
+
+-   `stringr()` package functions:
+    -   str\_detect(): *detects* what elements contain a match to the specified pattern:
+    -   str\_detect(string = something, pattern = "something")
+    -   str\_extract(): pattern extraction:
+    -   str\_extract(string = something, pattern = "something")
+    -   str\_replace(): replace a pattern with a new string:
+    -   str\_replace(string = something, pattern = "something", replacement = "replacement")
