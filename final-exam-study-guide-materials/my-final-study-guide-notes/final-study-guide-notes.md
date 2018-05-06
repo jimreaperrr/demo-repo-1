@@ -1303,3 +1303,135 @@ sort(set12, decreasing = TRUE)
     -   str\_extract(string = something, pattern = "something")
     -   str\_replace(): replace a pattern with a new string:
     -   str\_replace(string = something, pattern = "something", replacement = "replacement")
+    -   str\_split():
+    -   str\_split(string = something, pattern = "something")
+
+#### Metacharacters
+
+-   the dot `.` or the **wild** metacharacter is used to match **ANY** character except for a new line.
+
+##### example using wild metacharacter
+
+``` r
+library(stringr)
+```
+
+    Warning: package 'stringr' was built under R version 3.4.3
+
+``` r
+not <- c("not", "note", "knot","nut")
+str_extract(not, "n.t")
+```
+
+    [1] "not" "not" "not" "nut"
+
+``` r
+fives <- c("5.00", "5100", "5-100", "5 00")
+
+str_extract(fives, "5.00")
+```
+
+    [1] "5.00" "5100" NA     "5 00"
+
+``` r
+# match actual dot character
+str_extract(fives, "5\\.00")
+```
+
+    [1] "5.00" NA     NA     NA    
+
+#### character ranges
+
+    # digits
+    [0-9]
+
+    # lowercase alphabet
+    [a-z]
+
+    # uppercase alphabet
+    A-Z
+
+-   To match consecutive digits or characters you need to define the character range pattern the amount of times as desired
+
+``` r
+triplets <- c('123', 'abc', 'ABC', ':-)')
+
+str_extract(triplets, "[A-Z][A-Z][A-Z]")
+```
+
+    [1] NA    NA    "ABC" NA   
+
+##### negative character range needs the ^ metacharacter
+
+``` r
+basic <- c('1', 'a', 'A', '&', '-', '^')
+
+# elements that are NOT upper case letters
+str_extract(basic, "[^A-Z]")
+```
+
+    [1] "1" "a" NA  "&" "-" "^"
+
+``` r
+# metacharacters inside character sets
+pnx <- c('pan', 'pen', 'pin', 'p0n', 'p.n', 'p1n', 'paun')
+
+# the dot is a literal dot, not a wildcard character
+str_extract(pnx, "p[ae.io]n")
+```
+
+    [1] "pan" "pen" "pin" NA    "p.n" NA    NA   
+
+##### metacharacters that don't become literal characters inside character sets: `]`, `-`, `^`, and the `\`
+
+#### character classes
+
+-   `\\d`: matches any digit
+    -   same as \[0-9\]
+-   `\\D`: matches any nondigit
+    -   same as \[^0-9\]
+-   `\\w`: matches any character considered part of a word
+    -   same as \[a-zA-Z0-9\_\]
+-   `\\W`: matches any character not considered part of a
+    -   same as \[^a-zA-Z0-9\_\]
+-   `\\s`: matches any whitespace character
+    -   same as \[\]
+-   `\\S`: matches any nonwhitespace character
+    -   same as \[^\\f\\n\\r\\t\\t\\v\]
+
+##### whitepace characters
+
+-   `\f`: form feed
+-   `\n`: line feed
+-   `\r`: carriage return
+-   `\t`: tab
+-   `\v`: vertical tab
+
+#### **POSIX character classes**
+
+-   `[:alnum:]`: any letter or digit
+    -   same as \[a-zA-Z0-9\]
+-   `[:alpha:]`: any letter
+    -   same as \[a-zA-Z\]
+-   `[:digit:]`: any digit
+    -   same as \[0-9\]
+-   `[:lower:]`: any lowercase letter
+    -   same as \[a-z\]
+-   `[:upper:]`: any uppercase letter
+    -   same as \[A-Z\]
+-   `[:space:]`: any whitespace including space
+    -   same as \[\]
+
+``` r
+pnx <- c('pan', 'pen', 'pin', 'p0n', 'p.n', 'p1n', 'paun')
+
+str_extract(pnx, "p[[:alpha:]]n")
+```
+
+    [1] "pan" "pen" "pin" NA    NA    NA    NA   
+
+``` r
+str_extract(pnx, "[[:digit:]]")
+```
+
+    [1] NA  NA  NA  "0" NA  "1" NA
